@@ -22,7 +22,8 @@ public class ActivePromotionHandler implements PromotionHandler {
         int promotionSaleQuantity = promotionStrategy.calculatePromotionSaleQuantity(orderQuantity, inventory);
         int generalSaleQuantity = promotionStrategy.calculateGeneralSaleQuantity(orderQuantity, promotionSaleQuantity);
         // 추가 증정 상품 처리
-        SaleDto updatedSaleDto = handleAdditionalGift(inventory, orderQuantity, promotionSaleQuantity, orderName);
+        SaleDto updatedSaleDto = handleAdditionalGift(inventory, orderQuantity, promotionSaleQuantity,
+                generalSaleQuantity, orderName);
         promotionSaleQuantity = updatedSaleDto.getPromotionSaleQuantity();
         generalSaleQuantity = updatedSaleDto.getGeneralSaleQuantity();
         // 손해보는 구매 처리
@@ -33,6 +34,7 @@ public class ActivePromotionHandler implements PromotionHandler {
 
 
     private SaleDto handleAdditionalGift(Inventory inventory, int orderQuantity, int promotionSaleQuantity,
+                                         int generalSaleQuantity,
                                          String orderName) {
         // 추가 증정 상품이 필요할 때 처리
         if (checkMoreGetItem(inventory.getPromotionStockQuantity(), orderQuantity, promotionSaleQuantity)) {
@@ -40,7 +42,7 @@ public class ActivePromotionHandler implements PromotionHandler {
                 return new SaleDto(0, orderQuantity + 1); // 추가 증정 상품 +1, 일반 상품은 0으로 설정
             }
         }
-        return new SaleDto(promotionSaleQuantity, orderQuantity); // 기존 판매량 반환
+        return new SaleDto(generalSaleQuantity, promotionSaleQuantity); // 기존 판매량 반환
     }
 
 
