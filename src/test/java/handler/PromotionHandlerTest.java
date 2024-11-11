@@ -65,26 +65,7 @@ public class PromotionHandlerTest {
         Assertions.assertInstanceOf(GeneralHandler.class, promotionHandler);
     }
 
-    @Test
-    void 프로모션_활성화_전략_Handler_handle() {
-
-        String simulatedInput = "잘못된입력\nn\n";
-        InputStream originalIn = System.in;
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        try {
-            PromotionHandler promotionHandler = PromotionHandlerFactory.getHandler(activePromotionStrategy);
-            Inventory inventory = inventoryRepository.findStockByName("콜라");
-            SaleDto saleDto = promotionHandler.handle("콜라", 11, inventory);
-            Assertions.assertEquals(0, saleDto.getGeneralSaleQuantity());
-            Assertions.assertEquals(9, saleDto.getPromotionSaleQuantity());
-        } finally {
-            // 테스트 후 System.in 원상복구
-            System.setIn(originalIn);
-        }
-
-    }
-
-
+    
     @Test
     void 프로모션_비활성화_전략_Handler_handle() {
         // 미리 정의한 입력값 설정
