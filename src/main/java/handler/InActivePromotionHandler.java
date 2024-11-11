@@ -22,7 +22,7 @@ public class InActivePromotionHandler implements PromotionHandler {
         // 비활성화된 프로모션 처리
         int promotionSaleQuantity = promotionStrategy.calculatePromotionSaleQuantity(orderQuantity, inventory);
         int generalSaleQuantity = promotionStrategy.calculateGeneralSaleQuantity(orderQuantity, promotionSaleQuantity);
-        generalSaleQuantity = promotionSaleQuantity;
+        generalSaleQuantity = generalSaleQuantity + promotionSaleQuantity;
         promotionSaleQuantity = 0;
 
         return new SaleDto(generalSaleQuantity, promotionSaleQuantity);
